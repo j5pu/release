@@ -1,0 +1,24 @@
+name: release
+description: "Tag, create release, remove release"
+
+branding:
+  icon: "activity"
+  color: "orange"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        token: ${{ env.GITHUB_TOKEN }}
+
+    tests:
+      runs-on: ${{ matrix.os }}
+      strategy:
+        fail-fast: true
+        matrix:
+          os: [ macos-latest, macos-10.15, ubuntu-latest, ubuntu-18.04 ]
+      steps:
+        - run: make tests
+
